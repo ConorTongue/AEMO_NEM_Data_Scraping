@@ -3,6 +3,8 @@ import pandas
 import scrapers
 import logging
 from datetime import datetime
+from urllib.request import urlretrieve
+from zipfile import ZipFile as zipfile
 from bs4 import BeautifulSoup
 import os
 
@@ -20,7 +22,7 @@ def main():
     )
     print("Starting NEM data scraping...")
     # Define the tables to scrape data for
-    tables = ['DISPATCHLOAD']
+    tables = ['DISPATCHLOAD','DISPATCHPRICE']
     for table in tables:
         scrapers.scrape_nem_data(table, output_dir)
 
