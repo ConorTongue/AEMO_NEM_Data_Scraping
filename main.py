@@ -1,6 +1,7 @@
 import requests
 import pandas
-import scrapers
+from scrapers import scrape_nem_data
+from extract_and_summarise import extract
 import logging
 from datetime import datetime
 from urllib.request import urlretrieve
@@ -23,7 +24,9 @@ def main():
     print("Starting NEM data scraping...")
     # Define the tables to scrape data for
     tables = ['DISPATCHLOAD','DISPATCHPRICE']
-    scrapers.scrape_nem_data(tables, output_dir)
+    scrape_nem_data(tables, output_dir)
+    extract(tables, output_dir)
+    print("NEM data scraping and extraction completed.")
 
 if __name__ == "__main__":
     main()
