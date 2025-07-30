@@ -45,9 +45,11 @@ def extract(tables, output_dir):
                             # check if file has already been processed
                             csv_path = os.path.join(table_dir, csv_file)
                             date_str = os.path.splitext(csv_file)[0].split('_')[-1]  # Extract date from filename
-                            output_filename = f"{table}_{duid}_{date_str}.csv"
-                            output_path = os.path.join(filtered_dir, output_filename)
-                            if os.path.exists(output_path):
+                            asset_output_filename = f"{duid}_{table}_{date_str}.csv"
+                            asset_output_path = os.path.join(filtered_dir, asset_output_filename)
+                            state_output_filename = f"{state}_{table}_{date_str}.csv"
+                            state_output_path = os.path.join(filtered_dir, state_output_filename)
+                            if (os.path.exists(asset_output_path) or os.path.exists(state_output_path)):
                                 print(f"File {csv_file} already processed. Skipping.")
                                 logging.info(f"File {csv_file} already processed. Skipping.")
                                 continue
@@ -59,18 +61,18 @@ def extract(tables, output_dir):
                                     if not filtered_df.empty:
                                         # Create sensible output filename
                                         # Save filtered data
-                                        filtered_df.to_csv(output_path, index=False)
-                                        print(f"Saved filtered data to {output_path}")
-                                        logging.info(f"Saved filtered data to {output_path}")
+                                        filtered_df.to_csv(asset_output_path, index=False)
+                                        print(f"Saved filtered data to {asset_output_path}")
+                                        logging.info(f"Saved filtered data to {asset_output_path}")
 
                                 elif 'REGIONID' in df.columns:
                                     filtered_df = df[df['REGIONID'] == state]
                                     if not filtered_df.empty:
                                         # Create sensible output filename
                                         # Save filtered data
-                                        filtered_df.to_csv(output_path, index=False)
-                                        print(f"Saved filtered data to {output_path}")
-                                        logging.info(f"Saved filtered data to {output_path}")
+                                        filtered_df.to_csv(state_output_path, index=False)
+                                        print(f"Saved filtered data to {state_output_path}")
+                                        logging.info(f"Saved filtered data to {state_output_path}")
 
                                 # Clean up the extracted CSV
                                 os.remove(csv_path)

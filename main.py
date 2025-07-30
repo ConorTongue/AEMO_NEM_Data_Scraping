@@ -23,7 +23,7 @@ def main():
     )
     print("Starting NEM data scraping...")
     # Define the tables to scrape data for
-    tables = ['DISPATCHLOAD','DISPATCHPRICE']
+    tables = ['DEMANDOPERATIONALACTUAL']
     scrape_nem_data(tables, output_dir)
     extract(tables, output_dir)
     print("NEM data scraping and extraction completed.")
