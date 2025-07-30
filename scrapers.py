@@ -16,8 +16,8 @@ def scrape_nem_data(tables, output_dir):
     # Define the years and months to scrape data for
 
     years = ['2024']
-    #months = ['01','02','03','04','05','06','07','08','09','10','11','12']
-    months = ['08']
+    months = ['01','02','03','04','05','06','07','08','09','10','11','12']
+    #months = ['08']
 
     # Loop through each year and month to construct the URL and retrieve data
 
@@ -44,13 +44,18 @@ def scrape_nem_data(tables, output_dir):
                 # Only look for files that match the pattern (filename only)
                 for table in tables:
                     if (filename.startswith(f'PUBLIC_DVD_{table}') or filename.startswith(f'PUBLIC_ARCHIVE%23{table}')) and filename.endswith('.zip'):
-                        print(filename)
+                        # check if the file is already downloaded
                         file_url = base + href  # url already ends with /
                         file_path = os.path.join(output_dir + '/' + f'{table}' + '/' + filename)
+                        if os.path.exists(file_path):
+                            print(f"File {filename} already exists in {output_dir}/{table}. Skipping download.")
+                            logging.info(f"File {filename} already exists in {output_dir}/{table}. Skipping download.")
+                            continue
                         try:
                             if not os.path.exists(output_dir + '/' + f'{table}'):
                                 os.makedirs(output_dir + '/' + f'{table}')
                             urlretrieve(file_url, file_path)
+                            print(f"Downloaded {href} to {file_path}")
                             logging.info(f"Downloaded {href} to {file_path}")
                         except Exception as e:
                             print(f"Failed to download {file_url}: {e}")
