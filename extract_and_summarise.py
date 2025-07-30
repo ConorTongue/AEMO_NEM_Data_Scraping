@@ -23,6 +23,7 @@ def extract(tables, output_dir):
         table_dir = os.path.join(output_dir, table)
         if not os.path.exists(table_dir):
             print(f"No data found for table {table}. Skipping extraction.")
+            logging.warning(f"No data found for table {table}. Skipping extraction.")   
             continue
     # Create a directory for filtered results
         filtered_dir = os.path.join(table_dir, 'filtered')
@@ -48,6 +49,7 @@ def extract(tables, output_dir):
                             output_path = os.path.join(filtered_dir, output_filename)
                             if os.path.exists(output_path):
                                 print(f"File {csv_file} already processed. Skipping.")
+                                logging.info(f"File {csv_file} already processed. Skipping.")
                                 continue
                             try:
                                 df = pd.read_csv(csv_path, low_memory=False, header=1)
@@ -68,6 +70,7 @@ def extract(tables, output_dir):
                                         # Save filtered data
                                         filtered_df.to_csv(output_path, index=False)
                                         print(f"Saved filtered data to {output_path}")
+                                        logging.info(f"Saved filtered data to {output_path}")
 
                                 # Clean up the extracted CSV
                                 os.remove(csv_path)
