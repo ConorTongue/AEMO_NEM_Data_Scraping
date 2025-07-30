@@ -16,8 +16,8 @@ def scrape_nem_data(tables, output_dir):
     # Define the years and months to scrape data for
 
     years = ['2024']
-    months = ['01','02','03','04','05','06','07','08','09','10','11','12']
-    #months = ['01']
+    #months = ['01','02','03','04','05','06','07','08','09','10','11','12']
+    months = ['08']
 
     # Loop through each year and month to construct the URL and retrieve data
 
@@ -43,7 +43,8 @@ def scrape_nem_data(tables, output_dir):
                 filename = os.path.basename(href)
                 # Only look for files that match the pattern (filename only)
                 for table in tables:
-                    if filename.startswith(f'PUBLIC_DVD_{table}') and filename.endswith('.zip'):
+                    if (filename.startswith(f'PUBLIC_DVD_{table}') or filename.startswith(f'PUBLIC_ARCHIVE%23{table}')) and filename.endswith('.zip'):
+                        print(filename)
                         file_url = base + href  # url already ends with /
                         file_path = os.path.join(output_dir + '/' + f'{table}' + '/' + filename)
                         try:
